@@ -10,6 +10,7 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 class Ticket extends Model implements HasMedia
 {
     use HasFactory, InteractsWithMedia;
+
     protected $fillable = [
         'customer_id',
         'subject',
@@ -21,5 +22,20 @@ class Ticket extends Model implements HasMedia
     public function customer()
     {
         return $this->belongsTo(Customer::class);
+    }
+
+    public function scopeLastDay($query)
+    {
+        return $query->where('created_at', '>=', now()->subDay());
+    }
+
+    public function scopeLastWeek($query)
+    {
+        return $query->where('created_at', '>=', now()->subWeek());
+    }
+
+    public function scopeLastMonth($query)
+    {
+        return $query->where('created_at', '>=', now()->subMonth());
     }
 }
