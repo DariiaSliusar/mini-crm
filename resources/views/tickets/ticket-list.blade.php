@@ -79,7 +79,7 @@
                             </td>
                             <td class="px-4 py-2 border">{{ $ticket->created_at->format('d.m.Y H:i') }}</td>
                             <td class="px-4 py-2 border">
-                                <a href="#" class="text-indigo-600 hover:text-indigo-900 font-bold">
+                                <a href="{{ route('tickets.show', $ticket->id) }}" class="text-indigo-600 hover:text-indigo-900 font-bold">
                                     View
                                 </a>
                             </td>

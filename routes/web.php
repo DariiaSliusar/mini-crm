@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\MediaController;
 use App\Http\Controllers\Admin\TicketsController;
 use Illuminate\Support\Facades\Route;
 
@@ -19,4 +20,6 @@ Route::get('/widget', function () {
 
 Route::middleware(['auth', 'verified', 'role:manager'])->group(function () {
     Route::get('/tickets', [TicketsController::class, 'index'])->name('tickets.index');
+    Route::get('/tickets/{ticket}', [TicketsController::class, 'show'])->name('tickets.show');
+    Route::get('/media/{media}/download', [MediaController::class, 'download'])->name('media.download');
 });

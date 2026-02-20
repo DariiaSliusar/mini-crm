@@ -4,6 +4,8 @@ namespace App\Services;
 
 use App\Models\Customer;
 use App\Repositories\TicketRepository;
+use Spatie\MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist;
+use Spatie\MediaLibrary\MediaCollections\Exceptions\FileIsTooBig;
 
 class TicketService
 {
@@ -14,6 +16,10 @@ class TicketService
         $this->ticketRepository = $ticketRepository;
     }
 
+    /**
+     * @throws FileDoesNotExist
+     * @throws FileIsTooBig
+     */
     public function createTicket($data)
     {
         $customer = Customer::query()->firstOrCreate(

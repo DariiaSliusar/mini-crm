@@ -10,7 +10,7 @@ class TicketsController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Ticket::query()->with('customer');
+        $query = Ticket::query()->with(['customer', 'media']);
 
         if ($request->filled('date')) {
             $query->whereDate('created_at', $request->date);
@@ -37,5 +37,10 @@ class TicketsController extends Controller
         return view('tickets.ticket-list', compact('tickets'));
     }
 
+    public function show($id)
+    {
+        $ticket = Ticket::query()->with(['customer', 'media'])->findOrFail($id);
 
+        return view('tickets.ticket-detail', compact('ticket'));
+    }
 }
