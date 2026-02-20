@@ -1,0 +1,109 @@
+openapi: 3.0.3
+info:
+  title: Ticket System API
+  version: 1.0.0
+  description: API for the system of collecting applications and obtaining statistics (Mini-CRM)
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+servers:
+  - url: http://127.0.0.1:8000/api
+    description: Local development server
+security:
+  - {}
+paths:
+  /tickets:
+    post:
+      tags:
+        - Tickets
+      summary: Create a new ticket
+      description: |
+        Accepts data from the widget, creates/finds a client, and adds a request with files.
+
+        Validation rules:
+        - name: required, string, max 255
+        - email: required, email, max 255
+        - phone: required, E.164 format (e.g. +12345678901)
+        - subject: required, string, max 255
+        - message: required, string
+        - file: optional, array of files (jpg, jpeg, png, pdf, doc, docx), each max 10MB
+      operationId: createTicket
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  maxLength: 255
+                  example: John Doe
+                email:
+                  type: string
+                  format: email
+                  maxLength: 255
+                  example: john@example.com
+                phone:
+                  type: string
+                  example: '+380501234567'
+                  description: Must be in E.164 format (e.g. +12345678901)
+                subject:
+                  type: string
+                  maxLength: 255
+                  example: 'Support request'
+                message:
+                  type: string
+                  example: 'I need help with my account.'
+                file:
+                  type: array
+                  items:
+                    type: string
+                    format: binary
+                  description: |
+                    Optional. Array of files (jpg, jpeg, png, pdf, doc, docx). Each file max 10MB.
+              required:
+                - name
+                - email
+                - phone
+                - subject
+                - message
+      responses:
+        '201':
+          description: Ticket created successfully
+        '422':
+          description: Validation error
+  /tickets/statistics:
+    get:
+      tags:
+        - Tickets
+      summary: Ticket statistics
+      description: Receiving the number of tickets per day, week and month.
+      operationId: getTicketStatistics
+      responses:
+        '200':
+          description: Statistics retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      periodStatistics:
+                        type: object
+                        properties:
+                          last24Hours:
+                            type: integer
+                          last7Days:
+                            type: integer
+                          last30Days:
+                            type: integer
+                      totalTickets:
+                        type: integer
+                      generatedAt:
+                        type: string
+                        format: date-time
+        '401':
+          description: Unauthorized
