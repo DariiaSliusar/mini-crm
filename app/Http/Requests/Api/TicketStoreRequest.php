@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Api;
 
+use App\Models\Ticket;
 use Illuminate\Foundation\Http\FormRequest;
 
 class TicketStoreRequest extends FormRequest
@@ -30,5 +31,21 @@ class TicketStoreRequest extends FormRequest
             'file' => 'nullable|array',
             'file.*' => 'file|max:10240|mimes:jpg,jpeg,png,pdf,doc,docx',
         ];
+    }
+
+    public function withValidator($validator)
+    {
+        $validator->after(function ($validator) {
+            $exists = Ticket::query()->whereHas('customer', function ($q) {
+                $q->where('email', $this->email)
+                    ->orWhere('phone', $this->phone);
+            })
+                ->where('created_at', '>=', now()->subDay())
+                ->exists();
+
+            if ($exists) {
+                $validator->errors()->add('email', 'You have already submitted a request in the last 24 hours.');
+            }
+        });
     }
 }
