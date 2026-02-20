@@ -119,5 +119,13 @@ More details in the swagger.yaml file.
     
 ---
 
-## 5. License
+## 5. Test Data (Admin Panel)
+To test the manager functionality, use the following data:
+- **URL:** `http://127.0.0.1:8000/login`
+- **Email:** `manager@manager.com`
+- **Password:** `password123`
+
+*Note: This data is automatically generated when you run the `php artisan db:seed` command.*
+
+## 6. License
 This project is licensed under the MIT License.
