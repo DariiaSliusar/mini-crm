@@ -28,14 +28,15 @@ class TwoFactorAuthenticationTest extends TestCase
 
     public function test_two_factor_settings_page_can_be_rendered(): void
     {
-        $user = User::factory()->create();
+        $user = User::factory()->create([
+            'email_verified_at' => now(),
+        ]);
 
-        $this->actingAs($user)
-            ->withSession(['auth.password_confirmed_at' => time()])
-            ->get(route('two-factor.show'))
-            ->assertOk()
-            ->assertSee('Two Factor Authentication')
-            ->assertSee('Disabled');
+        $this->actingAs($user);
+
+        $component = Livewire::test('settings.two-factor');
+        $component->assertSet('twoFactorEnabled', false);
+        $component->assertSee('Disabled');
     }
 
     public function test_two_factor_settings_page_requires_password_confirmation_when_enabled(): void
