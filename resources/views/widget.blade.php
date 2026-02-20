@@ -9,7 +9,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
-<div class="max-w-md mx-auto mt-10 p-6 bg-white rounded-xl shadow-md">
+<div class="max-w-md mx-auto mt-2 p-6 bg-white rounded-xl shadow-md">
     <h2 class="text-2xl font-bold mb-6 text-gray-800">Submit a Ticket</h2>
 
     <form id="ticket-form" enctype="multipart/form-data" class="flex flex-col gap-4">

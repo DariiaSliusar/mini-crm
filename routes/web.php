@@ -22,4 +22,5 @@ Route::middleware(['auth', 'verified', 'role:manager'])->group(function () {
     Route::get('/tickets', [TicketsController::class, 'index'])->name('tickets.index');
     Route::get('/tickets/{ticket}', [TicketsController::class, 'show'])->name('tickets.show');
     Route::get('/media/{media}/download', [MediaController::class, 'download'])->name('media.download');
+    Route::patch('/tickets/{ticket}/status', [TicketsController::class, 'updateStatus'])->name('tickets.updateStatus');
 });

@@ -17,6 +17,11 @@
                 </div>
 
                 <div class="p-6 space-y-8">
+                    @if(session('success'))
+                        <div class="mb-4 p-3 rounded bg-green-100 text-green-800 text-sm">
+                            {{ session('success') }}
+                        </div>
+                    @endif
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
                             <h3 class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Customer</h3>
@@ -35,6 +40,18 @@
                             </span>
                             </div>
                             <p class="text-gray-600 dark:text-gray-400 text-sm">Created at: {{ $ticket->created_at->format('d.m.Y H:i') }}</p>
+
+                            <form action="{{ route('tickets.updateStatus', $ticket) }}" method="POST" class="mt-3 flex items-center gap-2">
+                                @csrf
+                                @method('PATCH')
+                                <select name="status" class="rounded border-gray-300 dark:bg-zinc-800 dark:text-gray-100">
+                                    <option value="new" {{ $ticket->status === 'new' ? 'selected' : '' }}>New</option>
+                                    <option value="in_progress" {{ $ticket->status === 'in_progress' ? 'selected' : '' }}>In Progress</option>
+                                    <option value="processed" {{ $ticket->status === 'processed' ? 'selected' : '' }}>Processed</option>
+                                </select>
+                                <button type="submit" class="px-3 py-1 bg-indigo-600 text-white rounded hover:bg-indigo-700 text-xs font-bold">Update</button>
+                            </form>
+
                         </div>
                     </div>
 

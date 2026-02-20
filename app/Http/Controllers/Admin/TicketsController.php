@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\TicketStatusUpdateRequest;
 use App\Models\Ticket;
 use Illuminate\Http\Request;
 
@@ -42,5 +43,14 @@ class TicketsController extends Controller
         $ticket = Ticket::query()->with(['customer', 'media'])->findOrFail($id);
 
         return view('tickets.ticket-detail', compact('ticket'));
+    }
+
+    public function updateStatus(TicketStatusUpdateRequest $request, $id)
+    {
+        $ticket = Ticket::query()->findOrFail($id);
+        $ticket->status = $request->input('status');
+        $ticket->save();
+
+        return redirect()->route('tickets.show', $ticket)->with('success', 'Ticket status updated successfully.');
     }
 }
