@@ -45,6 +45,7 @@ You can insert a widget into any page using an iframe:
 
 <iframe src="http://127.0.0.1:8000/widget" width="100%" height="600" frameborder="0"></iframe>
 
+
 **API**
 
 **Create a ticket**
@@ -76,12 +77,12 @@ Successful response (201):
         Ticket created successfully
 
 Validation error (422):
-        {
-        "message": "The given data was invalid.",
-        "errors": {
-            "email": ["The email must be a valid email address."]
-            }
-        }
+{
+"message": "The given data was invalid.",
+"errors": {
+"email": ["The email must be a valid email address."]
+}
+}
 
 **Get ticket statistics**
 
