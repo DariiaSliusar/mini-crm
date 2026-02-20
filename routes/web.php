@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\TicketsController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -15,3 +16,7 @@ require __DIR__.'/settings.php';
 Route::get('/widget', function () {
     return view('widget');
 })->name('widget');
+
+Route::middleware(['auth', 'verified', 'role:manager'])->group(function () {
+    Route::get('/tickets', [TicketsController::class, 'index'])->name('tickets.index');
+});
